@@ -26,14 +26,14 @@ public final class VirtualWorld extends PApplet {
     public static final double FASTER_SCALE = 0.25;
     public static final double FASTEST_SCALE = 0.10;
 
-    public String loadFile = "world.sav";
-    public long startTimeMillis = 0;
-    public double timeScale = 1.0;
+    private String loadFile = "world.sav";
+    private long startTimeMillis = 0;
+    private double timeScale = 1.0;
 
-    public ImageStore imageStore;
-    public WorldModel world;
-    public WorldView view;
-    public EventScheduler scheduler;
+    private ImageStore imageStore;
+    private WorldModel world;
+    private WorldView view;
+    private EventScheduler scheduler;
 
     public void settings() {
         size(VIEW_WIDTH, VIEW_HEIGHT);
@@ -55,13 +55,13 @@ public final class VirtualWorld extends PApplet {
 
     public void draw() {
         double appTime = (System.currentTimeMillis() - startTimeMillis) * 0.001;
-        double frameTime = (appTime - scheduler.currentTime)/timeScale;
+        double frameTime = (appTime - scheduler.getCurrentTime())/timeScale;
         this.update(frameTime);
-        Functions.drawViewport(view);
+        view.drawViewport();
     }
 
-    public void update(double frameTime){
-        Functions.updateOnTime(scheduler, frameTime);
+    private void update(double frameTime){
+        scheduler.updateOnTime(frameTime);
     }
 
     // Just for debugging and for P5
@@ -70,22 +70,22 @@ public final class VirtualWorld extends PApplet {
         Point pressed = mouseToPoint();
         System.out.println("CLICK! " + pressed.x + ", " + pressed.y);
 
-        Optional<Entity> entityOptional = Functions.getOccupant(world, pressed);
+        Optional<Entity> entityOptional = world.getOccupant(pressed);
         if (entityOptional.isPresent()) {
             Entity entity = entityOptional.get();
-            System.out.println(entity.id + ": " + entity.kind + " : " + entity.health);
+            System.out.println(entity.getId() + ": " + entity.getKind() + " : " + entity.getHealth());
         }
 
     }
 
-    public void scheduleActions(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        for (Entity entity : world.entities) {
-            Functions.scheduleActions(entity, scheduler, world, imageStore);
+    private void scheduleActions(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
+        for (Entity entity : world.getEntities()) {
+            entity.scheduleActions(scheduler, world, imageStore);
         }
     }
 
     private Point mouseToPoint() {
-        return Functions.viewportToWorld(view.viewport, mouseX / TILE_WIDTH, mouseY / TILE_HEIGHT);
+        return view.getViewport().viewportToWorld(mouseX / TILE_WIDTH, mouseY / TILE_HEIGHT);
     }
 
     public void keyPressed() {
@@ -99,15 +99,15 @@ public final class VirtualWorld extends PApplet {
                 case LEFT -> dx -= 1;
                 case RIGHT -> dx += 1;
             }
-            Functions.shiftView(view, dx, dy);
+            view.shiftView(dx, dy);
         }
     }
 
-    public static Background createDefaultBackground(ImageStore imageStore) {
-        return new Background(DEFAULT_IMAGE_NAME, Functions.getImageList(imageStore, DEFAULT_IMAGE_NAME));
+    private static Background createDefaultBackground(ImageStore imageStore) {
+        return new Background(DEFAULT_IMAGE_NAME, imageStore.getImageList(DEFAULT_IMAGE_NAME));
     }
 
-    public static PImage createImageColored(int width, int height, int color) {
+    private static PImage createImageColored(int width, int height, int color) {
         PImage img = new PImage(width, height, RGB);
         img.loadPixels();
         Arrays.fill(img.pixels, color);
@@ -115,28 +115,28 @@ public final class VirtualWorld extends PApplet {
         return img;
     }
 
-    public void loadImages(String filename) {
+    private void loadImages(String filename) {
         this.imageStore = new ImageStore(createImageColored(TILE_WIDTH, TILE_HEIGHT, DEFAULT_IMAGE_COLOR));
         try {
             Scanner in = new Scanner(new File(filename));
-            Functions.loadImages(in, imageStore,this);
+            imageStore.loadImages(in,this);
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public void loadWorld(String file, ImageStore imageStore) {
+    private void loadWorld(String file, ImageStore imageStore) {
         this.world = new WorldModel();
         try {
             Scanner in = new Scanner(new File(file));
-            Functions.load(world, in, imageStore, createDefaultBackground(imageStore));
+            world.load(in, imageStore, createDefaultBackground(imageStore));
         } catch (FileNotFoundException e) {
             Scanner in = new Scanner(file);
-            Functions.load(world, in, imageStore, createDefaultBackground(imageStore));
+            world.load(in, imageStore, createDefaultBackground(imageStore));
         }
     }
 
-    public void parseCommandLine(String[] args) {
+    private void parseCommandLine(String[] args) {
         for (String arg : args) {
             switch (arg) {
                 case FAST_FLAG -> timeScale = Math.min(FAST_SCALE, timeScale);
