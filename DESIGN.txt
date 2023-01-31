@@ -1,0 +1,8 @@
+﻿* tryAddEntity(): 
+   * placed it in WorldModel because the addEntity method is in WorldModel even though some parameters may be a different class
+* moveToFull(): 
+   * placed it in Entity because the method uses a little more Entity properties such as position than WorldModel properties
+* scheduleActions():
+   * Entity class because although the event schedule is called a lot in this method, the parameters are overwhelming Entity attributes
+* parseBackgroundRow():
+   * it uses various components from other classes, but the WorldModel class has the private variable background which is harder to access from other files, so WorldModel is selected.
