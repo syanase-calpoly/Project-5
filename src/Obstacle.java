@@ -32,14 +32,9 @@ public class Obstacle implements Scheduler {
         imageIndex = imageIndex + 1;
     }
 
-    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, Functions.createAnimationAction(this,0), this.getAnimationPeriod());
-    }
-
     public  PImage getCurrentImage() {
         return this.images.get(this.imageIndex % this.images.size());
     }
-
 
     public String getId() {
         return id;
@@ -56,14 +51,4 @@ public class Obstacle implements Scheduler {
     public int getImageIndex() {
         return imageIndex;
     }
-
-
-    /**
-     * Helper method for testing. Preserve this functionality while refactoring.
-     */
-    public String log(){
-        return this.id.isEmpty() ? null :
-                String.format("%s %d %d %d", this.id, this.position.x, this.position.y, this.imageIndex);
-    }
-
 }

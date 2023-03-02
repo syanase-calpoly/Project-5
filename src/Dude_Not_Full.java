@@ -9,7 +9,7 @@ import java.util.Optional;
  * An entity that exists in the world. See EntityKind for the
  * different kinds of entities that exist.
  */
-public class Dude_Not_Full implements Scheduler, ExecuteActivity, Move {
+public class Dude_Not_Full implements Dude {
     private final String id;
     private Point position;
     private final List<PImage> images;
@@ -79,10 +79,6 @@ public class Dude_Not_Full implements Scheduler, ExecuteActivity, Move {
         }
     }
 
-    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, Functions.createActivityAction(this, world, imageStore), actionPeriod);
-        scheduler.scheduleEvent(this, Functions.createAnimationAction(this,0), this.getAnimationPeriod());
-    }
 
     public  PImage getCurrentImage() {
         return this.images.get(this.imageIndex % this.images.size());
@@ -106,13 +102,8 @@ public class Dude_Not_Full implements Scheduler, ExecuteActivity, Move {
         return imageIndex;
     }
 
-
-    /**
-     * Helper method for testing. Preserve this functionality while refactoring.
-     */
-    public String log(){
-        return this.id.isEmpty() ? null :
-                String.format("%s %d %d %d", this.id, this.position.x, this.position.y, this.imageIndex);
+    public double getActionPeriod() {
+        return actionPeriod;
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.Optional;
  * An entity that exists in the world. See EntityKind for the
  * different kinds of entities that exist.
  */
-public class Dude_Full implements Scheduler, ExecuteActivity, Move {
+public class Dude_Full implements Dude {
     private final String id;
     private Point position;
     private final List<PImage> images;
@@ -67,11 +67,6 @@ public class Dude_Full implements Scheduler, ExecuteActivity, Move {
             scheduler.scheduleEvent(this, Functions.createActivityAction(this, world, imageStore), actionPeriod);
         }
     }
-    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, Functions.createActivityAction(this, world, imageStore), actionPeriod);
-        scheduler.scheduleEvent(this, Functions.createAnimationAction(this,0), this.getAnimationPeriod());
-    }
-
     public  PImage getCurrentImage() {
         return this.images.get(this.imageIndex % this.images.size());
     }
@@ -90,5 +85,9 @@ public class Dude_Full implements Scheduler, ExecuteActivity, Move {
 
     public int getImageIndex() {
         return imageIndex;
+    }
+
+    public double getActionPeriod() {
+        return actionPeriod;
     }
 }

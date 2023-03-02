@@ -48,13 +48,4 @@ public class Stump implements Entity {
         return imageIndex;
     }
 
-
-    /**
-     * Helper method for testing. Preserve this functionality while refactoring.
-     */
-    public String log(){
-        return this.id.isEmpty() ? null :
-                String.format("%s %d %d %d", this.id, this.position.x, this.position.y, this.imageIndex);
-    }
-
 }

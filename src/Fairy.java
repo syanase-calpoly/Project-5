@@ -8,7 +8,7 @@ import java.util.Optional;
  * An entity that exists in the world. See EntityKind for the
  * different kinds of entities that exist.
  */
-public class Fairy implements Scheduler, ExecuteActivity, Move {
+public class Fairy implements Move {
     private final String id;
     private Point position;
     private final List<PImage> images;
@@ -26,7 +26,6 @@ public class Fairy implements Scheduler, ExecuteActivity, Move {
 
     }
 
-    @Override
     public Point nextPosition(WorldModel world, Point destPos) {
         int horiz = Integer.signum(destPos.x - position.x);
         Point newPos = new Point(position.x + horiz, position.y);
@@ -42,8 +41,6 @@ public class Fairy implements Scheduler, ExecuteActivity, Move {
 
         return newPos;
     }
-
-
 
     public double getAnimationPeriod() {
         return animationPeriod;
@@ -85,11 +82,6 @@ public class Fairy implements Scheduler, ExecuteActivity, Move {
         scheduler.scheduleEvent(this, Functions.createActivityAction(this,world, imageStore), actionPeriod);
     }
 
-    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) {
-        scheduler.scheduleEvent(this, Functions.createActivityAction(this, world, imageStore), actionPeriod);
-        scheduler.scheduleEvent(this, Functions.createAnimationAction(this,0), this.getAnimationPeriod());
-    }
-
     public  PImage getCurrentImage() {
         return this.images.get(this.imageIndex % this.images.size());
     }
@@ -112,12 +104,7 @@ public class Fairy implements Scheduler, ExecuteActivity, Move {
         return imageIndex;
     }
 
-    /**
-     * Helper method for testing. Preserve this functionality while refactoring.
-     */
-    public String log(){
-        return this.id.isEmpty() ? null :
-                String.format("%s %d %d %d", this.id, this.position.x, this.position.y, this.imageIndex);
+    public double getActionPeriod() {
+        return actionPeriod;
     }
-
 }
