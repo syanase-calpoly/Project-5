@@ -3,6 +3,8 @@ import processing.core.PImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 /**
  * An entity that exists in the world. See EntityKind for the
@@ -34,6 +36,7 @@ public class Dude_Full implements Dude {
     public void nextImage() {
         imageIndex = imageIndex + 1;
     }
+
 
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler) {
         if (Functions.adjacent(position, target.getPosition())) {

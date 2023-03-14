@@ -33,7 +33,7 @@ public class Fairy implements Move {
         Predicate<Point> canPassThrough = p -> world.withinBounds(p) && !world.isOccupied(p);
         BiPredicate<Point, Point> withinReach = Point::adjacent;
         List<Point> path = strat.computePath(
-               getPosition(),
+               position,
                destPos,
                canPassThrough,
                withinReach,

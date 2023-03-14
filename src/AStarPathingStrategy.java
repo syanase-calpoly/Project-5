@@ -10,18 +10,29 @@ public class AStarPathingStrategy implements PathingStrategy {
                                    Predicate<Point> canPassThrough,
                                    BiPredicate<Point, Point> withinReach,
                                    Function<Point, Stream<Point>> potentialNeighbors) {
+
         List<Point> path = new ArrayList<>();
         Comparator<Node> compareNode = new CompareNode();
         PriorityQueue<Node> openList = new PriorityQueue<>(compareNode);
         HashSet<Point> closedSet = new HashSet<>();
-        HashSet<Node> openSet = new HashSet<>();
+        HashSet<Point> openSet = new HashSet<>();
         Node currentNode = new Node(0, start.distance(end), start.distance(end), null, start);
         openList.add(currentNode);
-        openSet.add(currentNode);
-        while (!openList.isEmpty() && !withinReach.test(currentNode.getPoint(), end)) {
-            System.out.println(currentNode.getPoint().x + " " + currentNode.getPoint().y);
+        openSet.add(currentNode.getPoint());
+        while (!openList.isEmpty()) {
             currentNode = openList.poll();
-            openSet.remove(currentNode);
+            openSet.remove(currentNode.getPoint());
+
+            if (withinReach.test(currentNode.getPoint(), end)) {
+                while (currentNode != null) {
+                    if (currentNode.getPrev() == null) {
+                        break;
+                    }
+                    path.add(0, currentNode.getPoint());
+                    currentNode = currentNode.getPrev();
+                }
+                break;
+            }
             List <Point> neighbors = potentialNeighbors.apply(currentNode.getPoint()).filter(canPassThrough)
                     .filter(pt ->
                             !pt.equals(start)
@@ -29,24 +40,29 @@ public class AStarPathingStrategy implements PathingStrategy {
                     .collect(Collectors.toList());
 
             for (Point point : neighbors) {
+                if (!closedSet.contains(point)) {
 
-                int g = currentNode.getG() + 1;
-                int h = point.distance(end);
+                    int g = currentNode.getG() + 1;
 
-                Node nextNode = new Node(g, h, g+h, currentNode, point);
-                if (!openList.contains(nextNode)) {
-                    openList.add(nextNode);
-                    openSet.add(nextNode);
-                } else {
+                    int h = point.distance(end);
+                    int f = h + g;
+                    Node nextNode = new Node(g, h, f, currentNode, point);
 
-                    if (nextNode.getG() < currentNode.getG()) {
-                        openList.remove(currentNode);
-                        openSet.remove(currentNode);
+
+                    if (!openSet.contains(point)) {
                         openList.add(nextNode);
-                        openSet.add(nextNode);
+                        openSet.add(point);
+                    } else {
+
+                        if (nextNode.getG() < currentNode.getG()) {
+                            openList.remove(currentNode);
+                            openSet.remove(point);
+                            openList.add(nextNode);
+                            openSet.add(point);
+
+                        }
 
                     }
-
                 }
 
 
@@ -54,17 +70,8 @@ public class AStarPathingStrategy implements PathingStrategy {
             closedSet.add(currentNode.getPoint());
 
         }
-        while (currentNode != null) {
-            if (currentNode.getPrev() == null) {
-                break;
-            }
-            path.add(0, currentNode.getPoint());
-            currentNode = currentNode.getPrev();
-        }
+
         return path;
     }
 
 }
-
-
-

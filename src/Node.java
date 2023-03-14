@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Node implements Comparable<Node> {
 
@@ -46,6 +47,14 @@ public class Node implements Comparable<Node> {
     public int getF() { return f; }
     public int compareTo(Node o) {
         return this.f > o.f ? -1 : 1;
+    }
+    public boolean equals(Node o) {
+        return this.g == o.g && this.h == o.h && this.f == o.f && Objects.equals(this.prev, o.prev) && this.point == o.point;
+    }
+
+    public int hashCode()
+    {
+        return Objects.hash(g, h, f, prev, point);
     }
 }
 
