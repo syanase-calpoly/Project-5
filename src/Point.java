@@ -18,6 +18,13 @@ public final class Point {
         return other instanceof Point && ((Point) other).x == this.x && ((Point) other).y == this.y;
     }
 
+    public boolean adjacent(Point p2) {
+        return (this.x == p2.x && Math.abs(this.y - p2.y) == 1) || (this.y == p2.y && Math.abs(this.x - p2.x) == 1);
+    }
+
+    public int distance(Point p2) {
+        return (int)Math.sqrt((p2.y - this.y) * (p2.y - this.y) + (p2.x - this.x) * (p2.x - this.x));
+    }
     public int hashCode() {
         int result = 17;
         result = result * 31 + x;

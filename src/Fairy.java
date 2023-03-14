@@ -3,6 +3,8 @@ import processing.core.PImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 /**
  * An entity that exists in the world. See EntityKind for the
@@ -27,19 +29,36 @@ public class Fairy implements Move {
     }
 
     public Point nextPosition(WorldModel world, Point destPos) {
-        int horiz = Integer.signum(destPos.x - position.x);
-        Point newPos = new Point(position.x + horiz, position.y);
+        PathingStrategy strat = new AStarPathingStrategy();
+        Predicate<Point> canPassThrough = p -> world.withinBounds(p) && !world.isOccupied(p);
+        BiPredicate<Point, Point> withinReach = Point::adjacent;
+        List<Point> path = strat.computePath(
+               getPosition(),
+               destPos,
+               canPassThrough,
+               withinReach,
+               PathingStrategy.CARDINAL_NEIGHBORS
+        );
 
-        if (horiz == 0 || world.isOccupied(newPos)) {
-            int vert = Integer.signum(destPos.y - position.y);
-            newPos = new Point(position.x, position.y + vert);
-
-            if (vert == 0 || world.isOccupied(newPos)) {
-                newPos = position;
-            }
+        if (path.size() == 0) {
+            return getPosition();
         }
+        return path.get(0);
+        //        int horiz = Integer.signum(destPos.x - position.x);
+//        Point newPos = new Point(position.x + horiz, position.y);
+//
+//        if (horiz == 0 || world.isOccupied(newPos)) {
+//            int vert = Integer.signum(destPos.y - position.y);
+//            newPos = new Point(position.x, position.y + vert);
+//
+//            if (vert == 0 || world.isOccupied(newPos)) {
+//                newPos = position;
+//            }
+//        }
+//
+//        return newPos;
 
-        return newPos;
+
     }
 
     public double getAnimationPeriod() {
