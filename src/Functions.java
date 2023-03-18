@@ -222,6 +222,9 @@ public final class Functions {
         return new Fairy(id, position, images, actionPeriod, animationPeriod);
     }
 
+    public static Scheduler createGoblin(String id, Point position, double actionPeriod, double animationPeriod, List<PImage> images) {
+        return new Goblin(id, position, images, actionPeriod, animationPeriod);
+    }
     // need resource count, though it always starts at 0
     public static Scheduler createDudeNotFull(String id, Point position, double actionPeriod, double animationPeriod, int resourceLimit, List<PImage> images) {
         return new Dude_Not_Full(id, position, images, resourceLimit, 0,actionPeriod, animationPeriod);
