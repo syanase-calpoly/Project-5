@@ -78,8 +78,10 @@ public final class VirtualWorld extends PApplet {
         }
         if (!world.isOccupied(pressed)) {
             Entity entity = Functions.createGoblin("goblin", pressed, 0, 1, imageStore.getImageList("goblin"));
-            scheduleActions(world, scheduler, imageStore);
+
             world.tryAddEntity(entity);
+            this.scheduleActions(world, scheduler, imageStore);
+
         }
 
     }

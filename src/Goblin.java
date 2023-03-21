@@ -80,17 +80,17 @@ public class Goblin implements Move {
     }
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> goblinTarget = world.findNearest(position, new ArrayList<>(List.of(Dude_Full.class, Dude_Not_Full.class)));
+        Optional<Entity> goblinTarget = world.findNearest(position, new ArrayList<>(List.of(Dude_Not_Full.class)));
 
         if (goblinTarget.isPresent()) {
             Point tgtPos = goblinTarget.get().getPosition();
 
             if (this.moveTo(world, goblinTarget.get(), scheduler)) {
-
-                Scheduler sapling = Functions.createSapling(Functions.SAPLING_KEY + "_" + goblinTarget.get().getId(), tgtPos, imageStore.getImageList(Functions.SAPLING_KEY), 0);
-
-                world.addEntity(sapling);
-                sapling.scheduleActions(scheduler, world, imageStore);
+                // yo
+//                Scheduler sapling = Functions.createSapling(Functions.SAPLING_KEY + "_" + goblinTarget.get().getId(), tgtPos, imageStore.getImageList(Functions.SAPLING_KEY), 0);
+//
+//                world.addEntity(sapling);
+//                sapling.scheduleActions(scheduler, world, imageStore);
             }
         }
 
