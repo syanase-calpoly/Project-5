@@ -13,6 +13,7 @@ public class Goblin implements Move {
     private int imageIndex;
     private final double actionPeriod;
     private final double animationPeriod;
+    int counter;
 
     public Goblin(String id, Point position, List<PImage> images, double actionPeriod, double animationPeriod) {
         this.id = id;
@@ -21,6 +22,7 @@ public class Goblin implements Move {
         this.imageIndex = 0;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
+        this.counter = 0;
 
     }
 
@@ -80,17 +82,19 @@ public class Goblin implements Move {
     }
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> goblinTarget = world.findNearest(position, new ArrayList<>(List.of(Dude_Not_Full.class)));
+        Optional<Entity> goblinTarget = world.findNearest(position, new ArrayList<>(List.of(Fairy.class)));
 
         if (goblinTarget.isPresent()) {
             Point tgtPos = goblinTarget.get().getPosition();
 
             if (this.moveTo(world, goblinTarget.get(), scheduler)) {
-                // yo
-//                Scheduler sapling = Functions.createSapling(Functions.SAPLING_KEY + "_" + goblinTarget.get().getId(), tgtPos, imageStore.getImageList(Functions.SAPLING_KEY), 0);
-//
-//                world.addEntity(sapling);
-//                sapling.scheduleActions(scheduler, world, imageStore);
+                world.removeEntity(scheduler, goblinTarget.get());
+            }
+        }
+        else{
+            counter++;
+            if(counter == 1){
+                System.out.println("All faries are dead");
             }
         }
 

@@ -136,6 +136,8 @@ public final class Functions {
         }
     }
 
+
+
     public static void parseEntity(WorldModel world, String line, ImageStore imageStore) {
         String[] properties = line.split(" ", Functions.ENTITY_NUM_PROPERTIES + 1);
         if (properties.length >= Functions.ENTITY_NUM_PROPERTIES) {
@@ -220,7 +222,7 @@ public final class Functions {
         return new Sapling(id, position, images, SAPLING_ACTION_ANIMATION_PERIOD, SAPLING_ACTION_ANIMATION_PERIOD, health, SAPLING_HEALTH_LIMIT);
     }
 
-    private static Scheduler createFairy(String id, Point position, double actionPeriod, double animationPeriod, List<PImage> images) {
+    public static Scheduler createFairy(String id, Point position, double actionPeriod, double animationPeriod, List<PImage> images) {
         return new Fairy(id, position, images, actionPeriod, animationPeriod);
     }
 

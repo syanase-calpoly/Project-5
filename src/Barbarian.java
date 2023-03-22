@@ -91,10 +91,8 @@ public class Barbarian implements Move {
 
             if (this.moveTo(world, goblinTarget.get(), scheduler)) {
 
-//                Scheduler sapling = Functions.createSapling(Functions.SAPLING_KEY + "_" + goblinTarget.get().getId(), tgtPos, imageStore.getImageList(Functions.SAPLING_KEY), 0);
-//
-//                world.addEntity(sapling);
-//                sapling.scheduleActions(scheduler, world, imageStore);
+                world.removeEntity(scheduler, goblinTarget.get());
+
             }
         }
 

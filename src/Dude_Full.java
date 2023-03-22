@@ -61,7 +61,7 @@ public class Dude_Full implements Dude {
     }
 
     public void transformBarbarian(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        Scheduler barbarian = Functions.createBarbarian("barbarian", position, actionPeriod, animationPeriod, imageStore.getImageList("Barbarian"));
+        Scheduler barbarian = Functions.createBarbarian("barbarian", position, 0.5, animationPeriod, imageStore.getImageList("barbarian"));
 
         world.removeEntity(scheduler, this);
 

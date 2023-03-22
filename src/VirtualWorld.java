@@ -81,32 +81,34 @@ public final class VirtualWorld extends PApplet {
             System.out.println(entity.getId() + ": " + entity.getClass());
         }
 
-        List<Entity> dudesAffected = world.checkDude(pressed);
-        for (Entity dude : dudesAffected) {
-            if (dude instanceof Dude) {
-                ((Dude)dude).transformBarbarian(world, scheduler, imageStore);
-            }
-        }
+
 
 
 
         if (checkPoint(new Point(pressed.x, pressed.y)) && checkPoint(new Point(pressed.x-1, pressed.y)) && checkPoint(new Point(pressed.x+1, pressed.y)) && checkPoint(new Point(pressed.x + 2, pressed.y)) && checkPoint(new Point(pressed.x, pressed.y + 1)) && checkPoint(new Point(pressed.x, pressed.y + 2)) && checkPoint(new Point(pressed.x - 1, pressed.y+ 1)) && checkPoint(new Point(pressed.x + 1, pressed.y + 1))) {
-            world.setBackgroundCell(new Point(pressed.x-1, pressed.y), new Background("gold", imageStore.getImageList("gold")));
-            world.setBackgroundCell(new Point(pressed.x+1, pressed.y), new Background("gold", imageStore.getImageList("gold")));
-            world.setBackgroundCell(new Point(pressed.x+2, pressed.y), new Background("gold", imageStore.getImageList("gold")));
-            world.setBackgroundCell(new Point(pressed.x, pressed.y+1), new Background("gold", imageStore.getImageList("gold")));
-            world.setBackgroundCell(new Point(pressed.x, pressed.y + 2), new Background("gold", imageStore.getImageList("gold")));
-            world.setBackgroundCell(new Point(pressed.x-1, pressed.y + 1), new Background("gold", imageStore.getImageList("gold")));
-            world.setBackgroundCell(new Point(pressed.x+1, pressed.y +1), new Background("gold", imageStore.getImageList("gold")));
+            List<Entity> dudesAffected = world.checkDude(pressed);
+            for (Entity dude : dudesAffected) {
+                if (dude instanceof Dude) {
+                    ((Dude)dude).transformBarbarian(world, scheduler, imageStore);
+                }
+            }
 
-        }
-        if (!world.isOccupied(pressed)) {
-            Scheduler entity = Functions.createGoblin("goblin", pressed, 0, 1, imageStore.getImageList("sapling "));
+
+            world.setBackgroundCell(new Point(pressed.x-1, pressed.y), new Background("golds", imageStore.getImageList("gold")));
+            world.setBackgroundCell(new Point(pressed.x+1, pressed.y), new Background("golds", imageStore.getImageList("gold")));
+            world.setBackgroundCell(new Point(pressed.x+2, pressed.y), new Background("golds", imageStore.getImageList("gold")));
+            world.setBackgroundCell(new Point(pressed.x, pressed.y+1), new Background("golds", imageStore.getImageList("gold")));
+            world.setBackgroundCell(new Point(pressed.x, pressed.y + 2), new Background("golds", imageStore.getImageList("gold")));
+            world.setBackgroundCell(new Point(pressed.x-1, pressed.y + 1), new Background("golds", imageStore.getImageList("gold")));
+            world.setBackgroundCell(new Point(pressed.x+1, pressed.y +1), new Background("golds", imageStore.getImageList("gold")));
+            Scheduler entity = Functions.createGoblin("goblin", pressed, .6, 0.1, imageStore.getImageList("goblin"));
 
             world.tryAddEntity(entity);
-            //entity.scheduleActions(scheduler, world, imageStore);
-
+            entity.scheduleActions(scheduler, world, imageStore);
+        } else {
+            System.out.println("Click somewhere else.");
         }
+
 
     }
 

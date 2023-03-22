@@ -17,6 +17,8 @@ Comment:
         sapling [id] [x] [y] HEALTH
         house [id] [x] [y]
         stump [id] [x] [y]
+
+
       Each Entity in this world.sav file has no id, so theres just two spaces between the x and y.
 Rows:
     30
