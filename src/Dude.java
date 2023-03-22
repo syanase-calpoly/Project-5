@@ -33,4 +33,6 @@ public interface Dude extends Move {
 //
 //        return newPos;
     }
+
+    void transformBarbarian(WorldModel world, EventScheduler scheduler, ImageStore imageStore);
 }

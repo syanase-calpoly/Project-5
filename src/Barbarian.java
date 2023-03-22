@@ -6,23 +6,25 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
-public class Goblin implements Move {
+/**
+ * An entity that exists in the world. See EntityKind for the
+ * different kinds of entities that exist.
+ */
+public class Barbarian implements Move {
     private final String id;
     private Point position;
     private final List<PImage> images;
     private int imageIndex;
     private final double actionPeriod;
     private final double animationPeriod;
-    int counter;
 
-    public Goblin(String id, Point position, List<PImage> images, double actionPeriod, double animationPeriod) {
+    public Barbarian(String id, Point position, List<PImage> images, double actionPeriod, double animationPeriod) {
         this.id = id;
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
-        this.counter = 0;
 
     }
 
@@ -82,19 +84,15 @@ public class Goblin implements Move {
     }
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> goblinTarget = world.findNearest(position, new ArrayList<>(List.of(Fairy.class)));
+        Optional<Entity> goblinTarget = world.findNearest(position, new ArrayList<>(List.of(Goblin.class)));
 
         if (goblinTarget.isPresent()) {
             Point tgtPos = goblinTarget.get().getPosition();
 
             if (this.moveTo(world, goblinTarget.get(), scheduler)) {
+
                 world.removeEntity(scheduler, goblinTarget.get());
-            }
-        }
-        else{
-            counter++;
-            if(counter == 1){
-                System.out.println("All faries are dead");
+
             }
         }
 
