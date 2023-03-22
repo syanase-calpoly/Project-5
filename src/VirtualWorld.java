@@ -104,7 +104,7 @@ public final class VirtualWorld extends PApplet {
             Scheduler entity = Functions.createGoblin("goblin", pressed, 0, 1, imageStore.getImageList("sapling "));
 
             world.tryAddEntity(entity);
-            entity.scheduleActions(scheduler, world, imageStore);
+            //entity.scheduleActions(scheduler, world, imageStore);
 
         }
 
