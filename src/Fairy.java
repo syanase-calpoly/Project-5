@@ -11,7 +11,7 @@ import java.util.function.Predicate;
  * different kinds of entities that exist.
  */
 public class Fairy implements Move {
-    private final String id; 
+    private final String id;
     private Point position;
     private final List<PImage> images;
     private int imageIndex;
