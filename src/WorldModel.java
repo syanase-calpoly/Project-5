@@ -56,6 +56,21 @@ public final class WorldModel {
         }
     }
 
+    public List<Entity> checkDude(Point pos) {
+        List<Class> dudes = new ArrayList<>(List.of(Dude_Not_Full.class, Dude_Full.class));
+        List<Entity> convert = new LinkedList<>();
+        for (Class dude : dudes) {
+            for (Entity entity : entities) {
+                if (entity.getClass() == dude) {
+                    if (entity.getPosition().x < pos.x + 10 && entity.getPosition().x >= pos.x - 10 && entity.getPosition().y < pos.y + 10 && entity.getPosition().y >= pos.y - 10) {
+                        convert.add(entity);
+                    }
+                }
+            }
+        }
+        return convert;
+
+    }
     public void tryAddEntity(Entity entity) {
         if (isOccupied(entity.getPosition())) {
             // arguably the wrong type of exception, but we are not

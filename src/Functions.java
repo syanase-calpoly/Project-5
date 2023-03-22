@@ -98,6 +98,8 @@ public final class Functions {
         }
     }
 
+
+
     private static void parseTree(WorldModel world, String[] properties, Point pt, String id, ImageStore imageStore) {
         if (properties.length == TREE_NUM_PROPERTIES) {
             Entity entity = createTree(id, pt, Double.parseDouble(properties[TREE_ACTION_PERIOD]), Double.parseDouble(properties[TREE_ANIMATION_PERIOD]), Integer.parseInt(properties[TREE_HEALTH]), imageStore.getImageList(TREE_KEY));
@@ -225,6 +227,10 @@ public final class Functions {
     public static Scheduler createGoblin(String id, Point position, double actionPeriod, double animationPeriod, List<PImage> images) {
         return new Goblin(id, position, images, actionPeriod, animationPeriod);
     }
+
+    public static Scheduler createBarbarian(String id, Point position, double actionPeriod, double animationPeriod, List<PImage> images) {
+        return new Barbarian(id, position, images, actionPeriod, animationPeriod);
+    }
     // need resource count, though it always starts at 0
     public static Scheduler createDudeNotFull(String id, Point position, double actionPeriod, double animationPeriod, int resourceLimit, List<PImage> images) {
         return new Dude_Not_Full(id, position, images, resourceLimit, 0,actionPeriod, animationPeriod);
@@ -234,6 +240,7 @@ public final class Functions {
     public static Scheduler createDudeFull(String id, Point position, double actionPeriod, double animationPeriod, int resourceLimit, List<PImage> images) {
         return new Dude_Full(id, position, images, resourceLimit, actionPeriod, animationPeriod);
     }
+
 
 
     public static int clamp(int value, int low, int high) {
