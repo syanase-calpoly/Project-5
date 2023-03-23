@@ -94,7 +94,7 @@ public class Goblin implements Move {
         else{
             counter++;
             if(counter == 1){
-                System.out.println("All faries are dead");
+                System.out.println("All faries are dead"); 
             }
         }
 
